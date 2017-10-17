@@ -1,8 +1,111 @@
 -- lab 04 https://github.com/MicrosoftLearning/QueryingT-SQL/blob/master/Labs/Lab04.pdf
 -- challenge 1
 -- 1
+SELECT * FROM SALESLT.ADDRESS;
+SELECT * FROM SALESLT.CUSTOMER;
+SELECT * FROM SALESLT.CUSTOMERADDRESS;
+
+SELECT C.COMPANYNAME, A.ADDRESSLINE1, A.CITY, 'Billing' AS AddressType
+FROM SALESLT.CUSTOMERADDRESS AS CA
+JOIN SALESLT.CUSTOMER AS C
+ON C.CustomerID =  CA.CUSTOMERID
+JOIN SALESLT.ADDRESS AS A
+ON A.AddressID = CA.AddressID
+WHERE ca.AddressType = 'Main Office';
 -- 2
+SELECT C.COMPANYNAME, A.ADDRESSLINE1, A.CITY, 'Shipping' AS AddressType
+FROM SALESLT.CUSTOMERADDRESS AS CA
+JOIN SALESLT.CUSTOMER AS C
+ON C.CustomerID =  CA.CUSTOMERID
+JOIN SALESLT.ADDRESS AS A
+ON A.AddressID = CA.AddressID
+WHERE ca.AddressType = 'Shipping';
 -- 3
+SELECT C.COMPANYNAME, 'Billing' AS AddressType
+FROM SALESLT.CUSTOMERADDRESS AS CA
+JOIN SALESLT.CUSTOMER AS C
+ON C.CustomerID =  CA.CUSTOMERID
+JOIN SALESLT.ADDRESS AS A
+ON A.AddressID = CA.AddressID
+WHERE ca.AddressType = 'Main Office'
+
+UNION ALL
+
+SELECT C.COMPANYNAME, 'Shipping' AS AddressType
+FROM SALESLT.CUSTOMERADDRESS AS CA
+JOIN SALESLT.CUSTOMER AS C
+ON C.CustomerID =  CA.CUSTOMERID
+JOIN SALESLT.ADDRESS AS A
+ON A.AddressID = CA.AddressID
+WHERE ca.AddressType = 'Shipping'
+
+ORDER BY C.COMPANYNAME, ADDRESSTYPE;
 -- challenge 2
 -- 1
+SELECT C.COMPANYNAME 
+FROM SALESLT.CUSTOMER AS C
+JOIN SALESLT.CUSTOMERADDRESS AS CA
+ON C.CUSTOMERID = CA.CUSTOMERID
+WHERE ca.AddressType = 'Main Office'
+EXCEPT
+SELECT C.COMPANYNAME 
+FROM SALESLT.CUSTOMER AS C
+JOIN SALESLT.CUSTOMERADDRESS AS CA
+ON C.CUSTOMERID = CA.CUSTOMERID 
+WHERE ca.AddressType = 'Shipping'
+ORDER BY c.CompanyName;
+
+
+
+-- ou
+
+SELECT c.CompanyName
+FROM SalesLT.Customer AS c
+JOIN SalesLT.CustomerAddress AS ca
+ON c.CustomerID = ca.CustomerID
+JOIN SalesLT.Address AS a
+ON ca.AddressID = a.AddressID
+WHERE ca.AddressType = 'Main Office'
+EXCEPT
+SELECT c.CompanyName
+FROM SalesLT.Customer AS c
+JOIN SalesLT.CustomerAddress AS ca
+ON c.CustomerID = ca.CustomerID
+JOIN SalesLT.Address AS a
+ON ca.AddressID = a.AddressID
+WHERE ca.AddressType = 'Shipping'
+ORDER BY c.CompanyName;
+
 -- 2
+SELECT C.COMPANYNAME 
+FROM SALESLT.CUSTOMER AS C
+JOIN SALESLT.CUSTOMERADDRESS AS CA
+ON C.CUSTOMERID = CA.CUSTOMERID
+WHERE ca.AddressType = 'Main Office'
+INTERSECT
+SELECT C.COMPANYNAME 
+FROM SALESLT.CUSTOMER AS C
+JOIN SALESLT.CUSTOMERADDRESS AS CA
+ON C.CUSTOMERID = CA.CUSTOMERID 
+WHERE ca.AddressType = 'Shipping'
+ORDER BY c.CompanyName;
+
+
+-- OU
+
+SELECT c.CompanyName
+FROM SalesLT.Customer AS c
+JOIN SalesLT.CustomerAddress AS ca
+ON c.CustomerID = ca.CustomerID
+JOIN SalesLT.Address AS a
+ON ca.AddressID = a.AddressID
+WHERE ca.AddressType = 'Main Office'
+INTERSECT
+SELECT c.CompanyName
+FROM SalesLT.Customer AS c
+JOIN SalesLT.CustomerAddress AS ca
+ON c.CustomerID = ca.CustomerID
+JOIN SalesLT.Address AS a
+ON ca.AddressID = a.AddressID
+WHERE ca.AddressType = 'Shipping'
+ORDER BY c.CompanyName;
