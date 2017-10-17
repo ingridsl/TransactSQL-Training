@@ -1,0 +1,8 @@
+-- lab 04 https://github.com/MicrosoftLearning/QueryingT-SQL/blob/master/Labs/Lab04.pdf
+-- challenge 1
+-- 1
+-- 2
+-- 3
+-- challenge 2
+-- 1
+-- 2
